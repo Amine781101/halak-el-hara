@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حلاق الحارة — حجز موعد</title>
+<style>
+:root{--bg:#080808;--card:#111;--card2:#171717;--gold:#d4af37;--gold2:#f0d77a;--text:#f6f6f6;--muted:#aaa;--danger:#d94b4b;--ok:#3bb273}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#242018 0,#090909 42%,#050505 100%);color:var(--text);font-family:Arial,"Tahoma",sans-serif;min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:20px 14px 50px}.brand{text-align:center;padding:20px 0 14px}.logo{width:76px;height:76px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:auto;font-size:34px;box-shadow:0 0 28px #d4af3725}.brand h1{margin:12px 0 4px;font-size:30px;letter-spacing:.5px}.brand p{margin:0;color:var(--gold2)}
+.card{background:linear-gradient(145deg,#171717,#0d0d0d);border:1px solid #2c2c2c;border-radius:20px;padding:18px;margin:13px 0;box-shadow:0 14px 40px #0008}.title{font-size:19px;font-weight:700;margin-bottom:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid #333;background:#101010;color:#eee;border-radius:15px;padding:14px 10px;text-align:center;cursor:pointer}.choice.selected{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset;background:#19150b}.choice b{display:block;margin-bottom:4px}.choice small{color:var(--muted)}input,select{width:100%;background:#0b0b0b;border:1px solid #333;color:#fff;border-radius:12px;padding:13px;margin-top:8px;font-size:15px}label{display:block;color:#ddd;margin-top:10px}.hours{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.hour{padding:12px 4px;border:1px solid #333;background:#101010;border-radius:12px;text-align:center;cursor:pointer}.hour.selected{background:#211b0a;border-color:var(--gold);color:var(--gold2)}.hour.full{opacity:.35;cursor:not-allowed;text-decoration:line-through}.btn{width:100%;border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:700;background:linear-gradient(135deg,#d4af37,#8f6d17);color:#090909;cursor:pointer}.btn:disabled{opacity:.45;cursor:not-allowed}.muted{color:var(--muted);font-size:13px}.note{background:#17120a;border:1px solid #493b18;padding:11px;border-radius:12px;color:#e8d58e;font-size:13px}.ticket{display:none;text-align:center}.ticket.show{display:block}.ticketBox{background:#f4f1e9;color:#111;border-radius:18px;padding:20px}.ticketBox h2{margin:0 0 6px}.code{font-size:27px;font-weight:800;letter-spacing:2px;margin:10px}.qr{background:white;display:inline-block;padding:8px;border-radius:10px}.admin{display:none}.admin.show{display:block}.tabs{display:flex;gap:8px;margin:10px 0}.tab{flex:1;padding:11px;border:1px solid #333;border-radius:12px;text-align:center;cursor:pointer}.tab.active{border-color:var(--gold);color:var(--gold2)}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #292929;padding:12px 0}.danger{color:#ff7777}.switch{display:flex;align-items:center;gap:8px}.switch input{width:auto;margin:0}.footer{text-align:center;color:#666;font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="brand"><div class="logo">✂</div><h1>حلاق الحارة</h1><p>Barber Shop • أمين & صفيان</p></header>
+
+<section id="booking">
+<div class="card"><div class="title">1 — اختار الحفاف</div><div class="grid">
+<div class="choice barber selected" data-barber="أمين"><b>أمين</b><small>حفاف</small></div>
+<div class="choice barber" data-barber="صفيان"><b>صفيان</b><small>حفاف</small></div>
+</div></div>
+
+<div class="card"><div class="title">2 — اختار الخدمة</div><div class="grid">
+<div class="choice service" data-service="أطفال أقل من 15 سنة" data-price="350"><b>أطفال</b><small>أقل من 15 سنة • 350 دج</small></div>
+<div class="choice service" data-service="كبار 15 سنة وفوق" data-price="400"><b>كبار</b><small>15 سنة وفوق • 400 دج</small></div>
+<div class="choice service" data-service="شعر + لحية" data-price="500"><b>شعر + لحية</b><small>500 دج</small></div>
+</div></div>
+
+<div class="card"><div class="title">3 — اليوم والساعة</div>
+<label>اليوم<input id="date" type="date"></label>
+<div id="hours" class="hours" style="margin-top:12px"></div>
+<div class="note" style="margin-top:12px">من 14:00 حتى 22:00 • 3 حجوزات كحد أقصى لكل حفاف في كل ساعة.</div>
+</div>
+
+<div class="card"><div class="title">4 — معلومات الزبون</div>
+<label>الاسم واللقب<input id="name" placeholder="مثال: محمد بن علي"></label>
+<label>العمر<input id="age" type="number" min="1" max="120" placeholder="العمر"></label>
+<label>رقم الهاتف<input id="phone" inputmode="tel" placeholder="05 / 06 / 07 ..."></label>
+<div id="parentWrap" style="display:none"><label>رقم هاتف الوالد<input id="parentPhone" inputmode="tel" placeholder="رقم هاتف الوالد"></label></div>
+<button class="btn" id="bookBtn" disabled style="margin-top:15px">تأكيد الحجز</button>
+</div>
+</section>
+
+<section id="ticket" class="ticket card">
+<div class="title">تم تأكيد الحجز ✅</div>
+<div class="ticketBox">
+<h2>حلاق الحارة</h2><div>تيكي حجز رسمي</div>
+<div class="code" id="ticketCode"></div><div id="qrcode" class="qr"></div>
+<div id="ticketInfo" style="margin-top:12px;line-height:1.9"></div>
+</div>
+<button class="btn" style="margin-top:12px" onclick="window.print()">طبع التيكي</button>
+<button class="btn" style="margin-top:10px;background:#222;color:#eee;border:1px solid #444" onclick="newBooking()">حجز جديد</button>
+</section>
+
+<section class="card">
+<div class="title">لوحة التحكم</div>
+<div class="muted">خاصة بصاحب الحانوت — من هنا تشوف الحجوزات وتعلم «دالتو» أو «ماجاش».</div>
+<div class="tabs"><div class="tab active" onclick="adminTab('today',this)">حجوزات</div><div class="tab" onclick="adminTab('settings',this)">الإعدادات</div></div>
+<div id="adminToday"></div>
+<div id="adminSettings" style="display:none">
+<label>فتح/غلق الحجوزات
+<div class="switch"><input id="openSwitch" type="checkbox" checked onchange="setOpen(this.checked)"> الموقع مفتوح للحجز</div></label>
+<div class="note" style="margin-top:10px">كي ما تكونوش خدامين، طفيها ويولي الحجز مغلق.</div>
+</div>
+</section>
+<div class="footer">حلاق الحارة • نظام حجز المواعيد</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let state={barber:'أمين',service:null,price:null,hour:null};
+let open=JSON.parse(localStorage.getItem('barberOpen')??'true');
+let bookings=JSON.parse(localStorage.getItem('barberBookings')||'[]');
+
+function save(){localStorage.setItem('barberBookings',JSON.stringify(bookings))}
+function initDate(){let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());$('date').min=d.toISOString().slice(0,10);$('date').value=d.toISOString().slice(0,10)}
+function hours(){let h=$('hours');h.innerHTML='';for(let x=14;x<=21;x++){let t=String(x).padStart(2,'0')+':00';let count=bookings.filter(b=>b.date==$('date').value&&b.barber==state.barber&&b.hour==t).length;let el=document.createElement('div');el.className='hour'+(count>=3?' full':'')+(state.hour==t?' selected':'');el.innerHTML=t+'<br><small>'+count+'/3</small>';if(count<3&&open)el.onclick=()=>{state.hour=t;hours();validate()};h.appendChild(el)}}
+document.querySelectorAll('.barber').forEach(e=>e.onclick=()=>{document.querySelectorAll('.barber').forEach(x=>x.classList.remove('selected'));e.classList.add('selected');state.barber=e.dataset.barber;state.hour=null;hours();validate()})
+document.querySelectorAll('.service').forEach(e=>e.onclick=()=>{document.querySelectorAll('.service').forEach(x=>x.classList.remove('selected'));e.classList.add('selected');state.service=e.dataset.service;state.price=e.dataset.price;validate()})
+$('date').onchange=()=>{state.hour=null;hours();validate()}
+$('age').oninput=()=>{$('parentWrap').style.display=Number($('age').value)<18?'block':'none';validate()}
+$('name').oninput=$('phone').oninput=$('parentPhone').oninput=validate
+function validate(){$('bookBtn').disabled=!(open&&state.service&&state.hour&&$('date').value&&$('name').value.trim()&&$('phone').value.trim()&&Number($('age').value)>=1&&(Number($('age').value)>=18||$('parentPhone').value.trim()))}
+$('bookBtn').onclick=()=>{
+ if(!open)return;
+ let code='HH-'+Math.random().toString(36).slice(2,7).toUpperCase();
+ let b={code,status:'محجوز',name:$('name').value.trim(),age:Number($('age').value),phone:$('phone').value.trim(),parent:Number($('age').value)<18?$('parentPhone').value.trim():'',barber:state.barber,service:state.service,price:state.price,date:$('date').value,hour:state.hour};
+ bookings.push(b);save();showTicket(b);hours();renderAdmin()
+}
+function showTicket(b){$('booking').style.display='none';$('ticket').classList.add('show');$('ticketCode').textContent=b.code;$('ticketInfo').innerHTML=`<b>${b.name}</b><br>${b.barber} • ${b.service}<br>${b.date} • ${b.hour}<br>${b.price} دج`;$('qrcode').innerHTML='';if(window.QRCode)new QRCode($('qrcode'),{text:JSON.stringify(b),width:150,height:150})}
+function newBooking(){location.reload()}
+function renderAdmin(){let el=$('adminToday'),d=$('date').value;let arr=bookings.filter(b=>b.date==d).sort((a,b)=>a.hour.localeCompare(b.hour));el.innerHTML=arr.length?arr.map((b,i)=>{let status=b.status||'محجوز';return `<div class="row"><div><b>${b.hour}</b> — ${b.name}<br><span class="muted">${b.barber} • ${b.service}</span><br><small>${status}</small></div><div>${b.price} دج<br><button class="tab" onclick="setBookingStatus('${b.code}','حضر')">دالتو</button><button class="tab" onclick="setBookingStatus('${b.code}','ماجاش')">ماجاش</button></div></div>`}).join(''):'<div class="muted" style="padding:12px 0">ماكانش حجوزات لهذا اليوم.</div>'}
+function setBookingStatus(code,status){
+  const b=bookings.find(x=>x.code===code);
+  if(!b)return;
+  b.status=status;
+  save();
+  renderAdmin();
+  hours();
+}
+
+function adminTab(t,el){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');$('adminToday').style.display=t==='today'?'block':'none';$('adminSettings').style.display=t==='settings'?'block':'none'}
+function setOpen(v){open=v;localStorage.setItem('barberOpen',v);hours();validate()}
+$('openSwitch').checked=open;initDate();hours();renderAdmin();
+</script>
+</body>
+</html>
